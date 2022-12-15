@@ -39,13 +39,23 @@ public class LeaveServiceImpl implements LeaveService {
 
         LocalDate date1 = leaves.getStartDate();
 			LocalDate date2 = leaves.getEndDate();
+
 			List<Holiday> dates = calendarRepo.findByYear(date1.getYear());
+            if(date1.getYear() != date2.getYear()){
+            List<Holiday> dates1 = calendarRepo.findByYear(date2.getYear());
+                for(Holiday h: dates1){
+                    dates.add(h);
+                }
+            }
+            
 			int count = 0;
 			for(int i = 0; i< dates.size(); i++ ){
 				if((dates.get(i).getDate().isEqual(date1) || dates.get(i).getDate().isAfter(date1)) && (dates.get(i).getDate().isEqual(date2) || dates.get(i).getDate().isBefore(date2))){
 					count++;
 				}
 			}
+
+            
             int peri= leaves.getEndDate().getDayOfYear()- leaves.getStartDate().getDayOfYear();
         leave.setPeriod(peri-count);
         leave.setType(leaves.getType());

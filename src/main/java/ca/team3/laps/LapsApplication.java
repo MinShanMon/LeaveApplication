@@ -65,9 +65,9 @@ public class LapsApplication {
 
 			Leave leave1 = new Leave("mc", LocalDate.now(), LocalDate.now().plusDays(15), LocalDate.now().plusDays(10).getDayOfYear()-LocalDate.now().plusDays(5).getDayOfYear(), "PENDING", "null", "null", javis);
 			leaveRepository.saveAndFlush(leave1);
-			Leave leave2 = new Leave("mc", LocalDate.now(), LocalDate.now().plusDays(10), LocalDate.now().plusDays(15).getDayOfYear()-LocalDate.now().plusDays(0).getDayOfYear(), "PENDING", "null", "null", javis);
+			Leave leave2 = new Leave("mcs", LocalDate.now(), LocalDate.now().plusDays(60), 10, "PENDING", "null", "null", javis);
 			leaveRepository.saveAndFlush(leave2);
-			LeaveHistoryDisplay leave3 = new LeaveHistoryDisplay(leave2.getId(), "annnnn", LocalDate.now(), LocalDate.now().plusDays(15), 1, "Pending", null, null);
+			// LeaveHistoryDisplay leave3 = new LeaveHistoryDisplay(leave2.getId(), "annnnn", LocalDate.now(), LocalDate.now().plusDays(15), 1, "Pending", null, null);
 
 
 			// System.out.println(leave1);
@@ -76,10 +76,10 @@ public class LapsApplication {
 			// 	System.out.println(l);
 			// }
 
-			leaveService.updateLeaveHistory(leave3.getId(), leave3);
+			// leaveService.updateLeaveHistory(leave3.getId(), leave3);
 			
 			LocalDate date1 = LocalDate.now();
-			LocalDate date2 = LocalDate.now().plusDays(10);
+			LocalDate date2 = LocalDate.now().plusDays(367);
 			List<Holiday> dates = calendarRepo.findByYear(date1.getYear());
 			int count = 0;
 			for(int i = 0; i< dates.size(); i++ ){
@@ -90,8 +90,11 @@ public class LapsApplication {
 			int difference = date2.getDayOfYear()-date1.getDayOfYear();
 			System.out.println(difference-count);
 
-			
-
+			long test = date2.toEpochDay();
+			long test1 = date1.toEpochDay();
+			System.out.println(test);
+			System.out.println(test1);
+			System.out.println(test-test1);
 
 
 		};
