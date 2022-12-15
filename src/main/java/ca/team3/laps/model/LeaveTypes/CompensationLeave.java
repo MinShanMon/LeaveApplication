@@ -1,5 +1,6 @@
 package ca.team3.laps.model.LeaveTypes;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -9,14 +10,15 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@DiscriminatorValue("Comp_Leave")
 @NoArgsConstructor
 public class CompensationLeave extends LeaveType {
 
     private float overtimeRatio;
 
     @JsonCreator
-    public CompensationLeave(long id, float granularity, float overtimeRatio) {
-        super(granularity, 0, "compensation");
+    public CompensationLeave(long id, float granularity, float leaveDays, float overtimeRatio) {
+        super(granularity, leaveDays);
         this.overtimeRatio = overtimeRatio;
     }
 }

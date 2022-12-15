@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.team3.laps.exception.AdminException;
+import ca.team3.laps.model.Leave;
 import ca.team3.laps.model.LeaveTypes.AnnualLeave;
 import ca.team3.laps.model.LeaveTypes.CompensationLeave;
 import ca.team3.laps.model.LeaveTypes.LeaveType;
 import ca.team3.laps.model.LeaveTypes.MedicalLeave;
 import ca.team3.laps.service.AdminLeaveService;
+import ca.team3.laps.service.LeaveService;
 
 @RestController
 @RequestMapping("/api/leave")
@@ -117,4 +119,5 @@ public class AdminLeaveController {
         List<LeaveType> entitlements = adminLeaveService.getAllLeaveEntitlements();
         return ResponseEntity.status(HttpStatus.OK).body(entitlements);
     }
+
 }

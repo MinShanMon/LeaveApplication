@@ -1,5 +1,6 @@
 package ca.team3.laps.model;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -9,12 +10,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @Data
 @NoArgsConstructor
-
+@AllArgsConstructor
 @Entity
 @Table(name="Leave_Application")
 public class Leave {
@@ -25,9 +31,11 @@ public class Leave {
     @Column(name="leaveType",nullable = false)
     private String type;
 
-    private float startDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startDate;
 
-    private float endDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endDate;
 
     private int period;
 
@@ -40,11 +48,11 @@ public class Leave {
     private String work;
 
     @ManyToOne
-    @JoinColumn(name="staff_id")
+    @JoinColumn(name="staff_id", nullable = true)
     private Staff staff;
 
-    public Leave(String type,float startDate,float endDate,int period,
-        String status,String reason, String work){ 
+    public Leave(String type,LocalDate startDate,LocalDate endDate,int period,
+        String status,String reason, String work, Staff staff){ 
 
         this.id = UUID.randomUUID().toString().substring(0,8);
         this.type=type;
@@ -54,5 +62,6 @@ public class Leave {
         this.status = status;
         this.reason = reason;
         this.work = work;
+        this.staff = staff;
     }
 }

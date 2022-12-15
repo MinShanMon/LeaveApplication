@@ -15,7 +15,9 @@ import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -68,4 +70,6 @@ public class Staff {
 
     @OneToMany(mappedBy = "manager")
     private Set<Staff> subordinates;
+
+    
 }

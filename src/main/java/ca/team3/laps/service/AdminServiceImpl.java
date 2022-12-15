@@ -11,7 +11,7 @@ import ca.team3.laps.model.Staff;
 import ca.team3.laps.model.CalendarificAPI.CalendarificAPIResponse;
 import ca.team3.laps.model.CalendarificAPI.Holiday;
 import ca.team3.laps.repository.CalendarRepo;
-import ca.team3.laps.repository.LeaveRepo;
+import ca.team3.laps.repository.LeaveTypeRepo;
 import ca.team3.laps.repository.StaffRepo;
 import reactor.core.publisher.Mono;
 
@@ -30,7 +30,7 @@ public class AdminServiceImpl implements AdminService {
     StaffRepo staffRepo;
 
     @Autowired
-    LeaveRepo leaveRepo;
+    LeaveTypeRepo leaveRepo;
 
     @Autowired
     WebClient webClient;

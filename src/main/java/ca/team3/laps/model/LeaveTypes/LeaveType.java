@@ -1,14 +1,19 @@
 package ca.team3.laps.model.LeaveTypes;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Inheritance;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@MappedSuperclass
+@Entity
+@Inheritance
+@DiscriminatorColumn(name = "Leave_Type")
 @Data
 @NoArgsConstructor
 public abstract class LeaveType {
@@ -17,11 +22,11 @@ public abstract class LeaveType {
     private long id;
     private float granularity;
     private float leaveDays;
-    protected String type;
-    
-    public LeaveType(float granularity, float leaveDays, String type) {
+    @Column(name = "Leave_Type", nullable = false, updatable = false, insertable = false)
+    private String leaveType;
+
+    public LeaveType(float granularity, float leaveDays) {
         this.granularity = granularity;
         this.leaveDays = leaveDays;
-        this.type = type;
     }
 }

@@ -12,22 +12,17 @@ import ca.team3.laps.model.LeaveTypes.LeaveType;
 import ca.team3.laps.model.LeaveTypes.MedicalLeave;
 
 
-public interface LeaveRepo extends JpaRepository<LeaveType, Long> {
-    
-    @Query("SELECT a "
-    + "FROM AnnualLeave a "
-    + "WHERE a.jobTitle = :jobTitle")
+public interface LeaveTypeRepo extends JpaRepository<LeaveType, Long> {
+
+    @Query("FROM AnnualLeave WHERE jobTitle = :jobTitle")
     public AnnualLeave findByJobTitle(@Param("jobTitle") String jobTitle);
 
-    @Query("SELECT a "
-    + "FROM AnnualLeave a")
+    @Query("FROM AnnualLeave")
     public List<AnnualLeave> findAnnualLeavesEntitlement(); 
 
-    @Query("SELECT m "
-    + "FROM MedicalLeave m")
+    @Query("FROM MedicalLeave")
     public MedicalLeave findMedicalLeaveEntitlement(); 
 
-    @Query("SELECT c "
-    + "FROM CompensationLeave c")
+    @Query("FROM CompensationLeave")
     public CompensationLeave findCompLeaveEntitlement(); 
 }

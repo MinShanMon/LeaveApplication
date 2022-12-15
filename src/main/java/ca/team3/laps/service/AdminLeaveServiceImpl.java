@@ -10,7 +10,7 @@ import ca.team3.laps.model.LeaveTypes.AnnualLeave;
 import ca.team3.laps.model.LeaveTypes.CompensationLeave;
 import ca.team3.laps.model.LeaveTypes.LeaveType;
 import ca.team3.laps.model.LeaveTypes.MedicalLeave;
-import ca.team3.laps.repository.LeaveRepo;
+import ca.team3.laps.repository.LeaveTypeRepo;
 import ca.team3.laps.repository.StaffRepo;
 
 @Service
@@ -20,7 +20,7 @@ public class AdminLeaveServiceImpl implements AdminLeaveService {
     StaffRepo staffRepo;
 
     @Autowired
-    LeaveRepo leaveRepo;
+    LeaveTypeRepo leaveRepo;
 
     @Override
     public AnnualLeave createAnnualLeaveEntitlement(AnnualLeave annualLeave) throws AdminException {
