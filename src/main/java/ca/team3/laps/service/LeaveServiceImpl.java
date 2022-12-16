@@ -53,10 +53,12 @@ public class LeaveServiceImpl implements LeaveService {
 				if((dates.get(i).getDate().isEqual(date1) || dates.get(i).getDate().isAfter(date1)) && (dates.get(i).getDate().isEqual(date2) || dates.get(i).getDate().isBefore(date2))){
 					count++;
 				}
+                
 			}
 
             
-            int peri= leaves.getEndDate().getDayOfYear()- leaves.getStartDate().getDayOfYear();
+            int peri= (int)(leaves.getEndDate().toEpochDay()- leaves.getStartDate().toEpochDay());
+            
         leave.setPeriod(peri-count);
         leave.setType(leaves.getType());
         leaveRepository.save(leave);
