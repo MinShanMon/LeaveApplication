@@ -24,7 +24,7 @@ public class LeaveHistoryDisplay {
 
     private int period;
 
-    private String status;
+    private LeaveStatusEnum status;
     
     private String reason;
 

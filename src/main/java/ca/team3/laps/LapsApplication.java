@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 
 import ca.team3.laps.model.Leave;
 import ca.team3.laps.model.LeaveHistoryDisplay;
+import ca.team3.laps.model.LeaveStatusEnum;
 import ca.team3.laps.model.Staff;
 import ca.team3.laps.model.CalendarificAPI.Holiday;
 import ca.team3.laps.repository.CalendarRepo;
@@ -64,9 +65,9 @@ public class LapsApplication {
 			
 			Staff subo= staffRepo.save(new Staff(1, "manager", "password", 2, "programmer", "shan", "mon", true, "shan@gmail.com", "otp", 10f, 12, 1, 1, null, null, null));
 			Staff javis = staffRepo.save(new Staff(2, "shanmon", "password", 3, "programmer", "shan", "mon", true, "shan@gmail.com", "otp", 10f, 12, 1, 1, null, subo, null));
-			Leave leave1 = new Leave("mc", LocalDate.now(), LocalDate.now().plusDays(15), LocalDate.now().plusDays(10).getDayOfYear()-LocalDate.now().plusDays(5).getDayOfYear(), "PENDING", "null", "null", javis);
+			Leave leave1 = new Leave("mc", LocalDate.now(), LocalDate.now().plusDays(15), LocalDate.now().plusDays(10).getDayOfYear()-LocalDate.now().plusDays(5).getDayOfYear(),LeaveStatusEnum.SUBMITTED, "null", "null", javis);
 			leaveRepository.saveAndFlush(leave1);
-			Leave leave2 = new Leave("mcs", LocalDate.now().plusDays(2), LocalDate.now().plusDays(4), 2, "PENDING", "null", "null", javis);
+			Leave leave2 = new Leave("mcs", LocalDate.now().plusDays(2), LocalDate.now().plusDays(4), 2, LeaveStatusEnum.SUBMITTED, "null", "null", javis);
 			leaveRepository.saveAndFlush(leave2);
 			// LeaveHistoryDisplay leave3 = new LeaveHistoryDisplay(leave2.getId(), "annnnn", LocalDate.now(), LocalDate.now().plusDays(15), 1, "Pending", null, null);
 
@@ -101,7 +102,7 @@ public class LapsApplication {
 			leaveHistoryDisplay.setEndDate(LocalDate.now().plusDays(10));
 			leaveHistoryDisplay.setType("mcssss");
 			leaveHistoryDisplay.setPeriod(2);
-			leaveHistoryDisplay.setStatus("Pending");
+			leaveHistoryDisplay.setStatus(LeaveStatusEnum.SUBMITTED);
 			leaveHistoryDisplay.setReason(null);
 			leaveHistoryDisplay.setWork(null);
 

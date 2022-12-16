@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +44,9 @@ public class Leave {
 
     private int period;
 
-    private String status;
+    @Column(name = "status", columnDefinition = "ENUM('SUBMITTED', 'APPROVED', 'WITHDRAWN', 'UPDATED', 'REJECTED')")
+    @Enumerated(EnumType.STRING)
+    private LeaveStatusEnum status;
 
     @Column(name="rejectReason",nullable = true)
     private String reason;
@@ -55,7 +59,7 @@ public class Leave {
     private Staff staff;
 
     public Leave(String type,LocalDate startDate,LocalDate endDate,int period,
-        String status,String reason, String work, Staff staff){ 
+        LeaveStatusEnum status,String reason, String work, Staff staff){ 
 
         this.type=type;
         this.startDate = startDate;
