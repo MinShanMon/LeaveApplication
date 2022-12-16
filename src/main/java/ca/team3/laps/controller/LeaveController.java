@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.team3.laps.model.Leave;
-import ca.team3.laps.model.LeaveHistoryDisplay;
+
 import ca.team3.laps.model.Staff;
 import ca.team3.laps.service.LeaveService;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,21 +29,21 @@ public class LeaveController {
     private LeaveService leaveService;
     //get leavehistory with Staffid
     @GetMapping(value = "/getWithStaffId/{id}", produces = "application/json")
-    public @ResponseBody List<LeaveHistoryDisplay> getHistory(@PathVariable("id") Integer id){
-        List<LeaveHistoryDisplay> Leaves = new ArrayList<LeaveHistoryDisplay>();
+    public @ResponseBody List<Leave> getHistory(@PathVariable("id") Integer id){
+        List<Leave> Leaves = new ArrayList<Leave>();
         Leaves = leaveService.leaveHistory(id);
         return Leaves;
     }
 
     //update leavehistory before approve or reject
     @PutMapping(value="/put")
-    public @ResponseBody LeaveHistoryDisplay updateLeaveHistory(@RequestBody LeaveHistoryDisplay leave){
+    public @ResponseBody Leave updateLeaveHistory(@RequestBody Leave leave){
         return leaveService.updateLeaveHistory(leave.getId(), leave);    
     }
 
     //create leavehistory
     @PostMapping(value="/post/{staffid}")
-    public @ResponseBody LeaveHistoryDisplay updateLeaveHistoryDisplay(@PathVariable("staffid") Integer id, @RequestBody LeaveHistoryDisplay leave){
+    public @ResponseBody Leave updateLeaveHistoryDisplay(@PathVariable("staffid") Integer id, @RequestBody Leave leave){
         return leaveService.createLeaveHistory(id, leave);
     }
 

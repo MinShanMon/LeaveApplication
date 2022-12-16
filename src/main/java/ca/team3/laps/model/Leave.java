@@ -16,6 +16,8 @@ import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,8 +35,9 @@ public class Leave {
     @Column(name="leave_id",nullable=false)
     private int id;
 
-    @Column(name="leaveType",nullable = false)
-    private String type;
+    @Column(name="leaveType",nullable = false, columnDefinition = "ENUM('MEDICAL_LEAVE', 'ANNUAL_LEAVE', 'COMPENSATION_LEAVE')")
+    @Enumerated(EnumType.STRING)
+    private LeaveTypeEnum type;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
@@ -54,11 +57,12 @@ public class Leave {
     @Column(name="workDissemination")
     private String work;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="staff_id", nullable = true)
     private Staff staff;
 
-    public Leave(String type,LocalDate startDate,LocalDate endDate,int period,
+    public Leave(LeaveTypeEnum type,LocalDate startDate,LocalDate endDate,int period,
         LeaveStatusEnum status,String reason, String work, Staff staff){ 
 
         this.type=type;

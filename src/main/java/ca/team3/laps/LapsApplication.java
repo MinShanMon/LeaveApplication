@@ -10,8 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import ca.team3.laps.model.Leave;
-import ca.team3.laps.model.LeaveHistoryDisplay;
+
 import ca.team3.laps.model.LeaveStatusEnum;
+import ca.team3.laps.model.LeaveTypeEnum;
 import ca.team3.laps.model.Staff;
 import ca.team3.laps.model.CalendarificAPI.Holiday;
 import ca.team3.laps.repository.CalendarRepo;
@@ -63,11 +64,11 @@ public class LapsApplication {
 
 			// Staff javis = staffRepository.save(new Staff("A001", null, "Javis", "password", 3, "alrigh", "javis", "john", true, "Javis@gmail.com", 5, 10, 1 ));
 			
-			Staff subo= staffRepo.save(new Staff(1, "manager", "password", 2, "programmer", "shan", "mon", true, "shan@gmail.com", "otp", 10f, 12, 1, 1, null, null, null));
-			Staff javis = staffRepo.save(new Staff(2, "shanmon", "password", 3, "programmer", "shan", "mon", true, "shan@gmail.com", "otp", 10f, 12, 1, 1, null, subo, null));
-			Leave leave1 = new Leave("mc", LocalDate.now(), LocalDate.now().plusDays(15), LocalDate.now().plusDays(10).getDayOfYear()-LocalDate.now().plusDays(5).getDayOfYear(),LeaveStatusEnum.SUBMITTED, "null", "null", javis);
+			Staff subo= staffRepo.save(new Staff(1, "manager", "password", 2, "programmer", "shan", "mon", true, "shan@gmail.com", "otp", 10f, 60, 60, 60, null, null, null));
+			Staff javis = staffRepo.save(new Staff(2, "shanmon", "password", 3, "programmer", "shan", "mon", true, "shan@gmail.com", "otp", 10f, 60, 60, 60, null, subo, null));
+			Leave leave1 = new Leave(LeaveTypeEnum.MEDICAL_LEAVE, LocalDate.now(), LocalDate.now().plusDays(15), LocalDate.now().plusDays(10).getDayOfYear()-LocalDate.now().plusDays(5).getDayOfYear(),LeaveStatusEnum.SUBMITTED, "null", "null", javis);
 			leaveRepository.saveAndFlush(leave1);
-			Leave leave2 = new Leave("mcs", LocalDate.now().plusDays(2), LocalDate.now().plusDays(4), 2, LeaveStatusEnum.SUBMITTED, "null", "null", javis);
+			Leave leave2 = new Leave(LeaveTypeEnum.MEDICAL_LEAVE, LocalDate.now().plusDays(2), LocalDate.now().plusDays(4), 2, LeaveStatusEnum.SUBMITTED, "null", "null", javis);
 			leaveRepository.saveAndFlush(leave2);
 			// LeaveHistoryDisplay leave3 = new LeaveHistoryDisplay(leave2.getId(), "annnnn", LocalDate.now(), LocalDate.now().plusDays(15), 1, "Pending", null, null);
 
@@ -97,10 +98,10 @@ public class LapsApplication {
 			System.out.println(test);
 			System.out.println(test1);
 			System.out.println(test-test1);
-			LeaveHistoryDisplay leaveHistoryDisplay = new LeaveHistoryDisplay();
+			Leave leaveHistoryDisplay = new Leave();
 			leaveHistoryDisplay.setStartDate(LocalDate.now());
 			leaveHistoryDisplay.setEndDate(LocalDate.now().plusDays(10));
-			leaveHistoryDisplay.setType("mcssss");
+			leaveHistoryDisplay.setType(LeaveTypeEnum.MEDICAL_LEAVE);
 			leaveHistoryDisplay.setPeriod(2);
 			leaveHistoryDisplay.setStatus(LeaveStatusEnum.SUBMITTED);
 			leaveHistoryDisplay.setReason(null);
