@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,8 +27,9 @@ import lombok.ToString;
 @Table(name="Leave_Application")
 public class Leave {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="leave_id",nullable=false)
-    private String id;
+    private int id;
 
     @Column(name="leaveType",nullable = false)
     private String type;
@@ -54,7 +57,6 @@ public class Leave {
     public Leave(String type,LocalDate startDate,LocalDate endDate,int period,
         String status,String reason, String work, Staff staff){ 
 
-        this.id = UUID.randomUUID().toString().substring(0,8);
         this.type=type;
         this.startDate = startDate;
         this.endDate = endDate;

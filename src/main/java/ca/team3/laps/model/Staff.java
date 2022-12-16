@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +28,7 @@ public class Staff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "staff_id", nullable = false)
-    private long stfId;
+    private int stfId;
 
     private String username;
 
@@ -61,13 +63,15 @@ public class Staff {
     @Column(name = "comp_leave_entitlement", nullable = false)
     private int compLeave;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "staff")
     private List<Leave> leave;
-
+    
     @ManyToOne
     @JoinColumn(name = "manager_id")
     private Staff manager;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "manager")
     private Set<Staff> subordinates;
 

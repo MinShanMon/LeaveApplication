@@ -13,7 +13,8 @@ import lombok.ToString;
 @Data
 public class LeaveHistoryDisplay {
 
-    private String id;
+    
+    private Integer id;
     
     private String type;
 

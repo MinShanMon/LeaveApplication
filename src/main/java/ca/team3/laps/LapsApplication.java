@@ -61,11 +61,12 @@ public class LapsApplication {
 		return (args)->{
 
 			// Staff javis = staffRepository.save(new Staff("A001", null, "Javis", "password", 3, "alrigh", "javis", "john", true, "Javis@gmail.com", 5, 10, 1 ));
-			Staff javis = staffRepo.save(new Staff(1, "shanmon", "password", 1, "programmer", "shan", "mon", true, "shan@gmail.com", "otp", 10f, 12, 1, 1, null, null, null));
-
+			
+			Staff subo= staffRepo.save(new Staff(1, "manager", "password", 2, "programmer", "shan", "mon", true, "shan@gmail.com", "otp", 10f, 12, 1, 1, null, null, null));
+			Staff javis = staffRepo.save(new Staff(2, "shanmon", "password", 3, "programmer", "shan", "mon", true, "shan@gmail.com", "otp", 10f, 12, 1, 1, null, subo, null));
 			Leave leave1 = new Leave("mc", LocalDate.now(), LocalDate.now().plusDays(15), LocalDate.now().plusDays(10).getDayOfYear()-LocalDate.now().plusDays(5).getDayOfYear(), "PENDING", "null", "null", javis);
 			leaveRepository.saveAndFlush(leave1);
-			Leave leave2 = new Leave("mcs", LocalDate.now(), LocalDate.now().plusDays(60), 10, "PENDING", "null", "null", javis);
+			Leave leave2 = new Leave("mcs", LocalDate.now().plusDays(2), LocalDate.now().plusDays(4), 2, "PENDING", "null", "null", javis);
 			leaveRepository.saveAndFlush(leave2);
 			// LeaveHistoryDisplay leave3 = new LeaveHistoryDisplay(leave2.getId(), "annnnn", LocalDate.now(), LocalDate.now().plusDays(15), 1, "Pending", null, null);
 
@@ -78,8 +79,8 @@ public class LapsApplication {
 
 			// leaveService.updateLeaveHistory(leave3.getId(), leave3);
 			
-			LocalDate date1 = LocalDate.now();
-			LocalDate date2 = LocalDate.now().plusDays(367);
+			LocalDate date1 = LocalDate.now().plusDays(2);
+			LocalDate date2 = LocalDate.now().plusDays(4);
 			List<Holiday> dates = calendarRepo.findByYear(date1.getYear());
 			int count = 0;
 			for(int i = 0; i< dates.size(); i++ ){
@@ -95,9 +96,29 @@ public class LapsApplication {
 			System.out.println(test);
 			System.out.println(test1);
 			System.out.println(test-test1);
+			LeaveHistoryDisplay leaveHistoryDisplay = new LeaveHistoryDisplay();
+			leaveHistoryDisplay.setStartDate(LocalDate.now());
+			leaveHistoryDisplay.setEndDate(LocalDate.now().plusDays(10));
+			leaveHistoryDisplay.setType("mcssss");
+			leaveHistoryDisplay.setPeriod(2);
+			leaveHistoryDisplay.setStatus("Pending");
+			leaveHistoryDisplay.setReason(null);
+			leaveHistoryDisplay.setWork(null);
+
+			leaveService.createLeaveHistory(1, leaveHistoryDisplay);
+			// Staff staff = leaveService.getStaffWithStaffId(1);
+
 			// ok
 
 
+			List<Staff> staff = leaveService.getSubordinate(1);
+			if(staff != null){
+
+				System.out.println("ok");
+			}
+			for(Staff s: staff){
+				System.out.println(s.getUsername());
+			}
 		};
 	}
 

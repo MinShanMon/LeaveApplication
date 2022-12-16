@@ -1,6 +1,7 @@
 package ca.team3.laps.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +18,8 @@ public interface StaffRepo extends JpaRepository<Staff, Integer> {
     public List<Staff> findByUsername(@Param("username") String username);
 
     public boolean existsByUsername(String username);
+
+    @Query("SELECT e2 FROM Staff e1, Staff e2 WHERE e1.stfId = e2.manager AND e1.stfId = :eid")
+    List<Staff> findSubordinates(@Param("eid") Integer eid);
+    
 }
