@@ -13,13 +13,15 @@ public interface LeaveService {
     // Leave updateLeave(Leave leave, String leaveId);
     Leave updateLeaveHistory(Integer id, Leave leave);
 
-    Leave getwithId(String id);
+    Leave getwithLeaveId(Integer id);
 
     Leave createLeaveHistory(Integer id,Leave leave);
 
     public List<Staff> getStaff();
 
-    Staff getStaffWithStaffId(Integer id);
+    
 
     List<Staff> getSubordinate(Integer id);
+
+    Leave approveLeave(Leave leave);
 }

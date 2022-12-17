@@ -57,10 +57,20 @@ public class LeaveController {
     //     return leaveService.getStaffWithStaffId(id);
     // }
 
-
+        //get leave history with leaveid
+    @GetMapping(value = "/getLeave/{id}", produces = "application/json")
+    public @ResponseBody Leave getLeaveWithid(@PathVariable("id") Integer id){
+        return leaveService.getwithLeaveId(id);
+    }
     //get subordinate with managerid
     @GetMapping(value = "/getSubordinate/{id}", produces = "application/json")
     public @ResponseBody List<Staff> getSubordinate(@PathVariable("id") Integer id){
         return leaveService.getSubordinate(id);
+    }
+    //manager approve or reject
+
+    @PutMapping(value = "/approve/put", produces = "application/json")
+    public @ResponseBody Leave getLeaveWithid(@RequestBody Leave leave){
+        return leaveService.approveLeave(leave);
     }
 }

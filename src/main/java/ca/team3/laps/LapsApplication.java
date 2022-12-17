@@ -19,6 +19,7 @@ import ca.team3.laps.repository.CalendarRepo;
 import ca.team3.laps.repository.LeaveRepository;
 import ca.team3.laps.repository.StaffRepo;
 import ca.team3.laps.service.LeaveService;
+import ca.team3.laps.service.StaffService;
 
 @SpringBootApplication
 public class LapsApplication {
@@ -59,13 +60,14 @@ public class LapsApplication {
 	// 		leaveRepository.saveAndFlush(leave1);
 
 	@Bean
-	public CommandLineRunner run(LeaveRepository leaveRepository, StaffRepo staffRepo,LeaveService leaveService, CalendarRepo calendarRepo){
+	public CommandLineRunner run(LeaveRepository leaveRepository, StaffRepo staffRepo,LeaveService leaveService, CalendarRepo calendarRepo, StaffService staffService){
 		return (args)->{
 
 			// Staff javis = staffRepository.save(new Staff("A001", null, "Javis", "password", 3, "alrigh", "javis", "john", true, "Javis@gmail.com", 5, 10, 1 ));
 			
-			Staff subo= staffRepo.save(new Staff(1, "manager", "password", 2, "programmer", "shan", "mon", true, "shan@gmail.com", "otp", 10f, 60, 60, 60, null, null, null));
-			Staff javis = staffRepo.save(new Staff(2, "shanmon", "password", 3, "programmer", "shan", "mon", true, "shan@gmail.com", "otp", 10f, 60, 60, 60, null, subo, null));
+			Staff subo= staffRepo.save(new Staff(1, "manager", "password", 2, "programmer", "shan", "mon", true, "shan@gmail.com", "otp", 10f, 60, 60, 60, null, null, null,null));
+			
+			Staff javis = staffRepo.save(new Staff(2, "shanmon", "password", 3, "programmer", "shan", "mon", true, "shan@gmail.com", "otp", 10f, 60, 60, 60, null, subo, null, null));
 			Leave leave1 = new Leave(LeaveTypeEnum.MEDICAL_LEAVE, LocalDate.now(), LocalDate.now().plusDays(15), LocalDate.now().plusDays(10).getDayOfYear()-LocalDate.now().plusDays(5).getDayOfYear(),LeaveStatusEnum.SUBMITTED, "null", "null", javis);
 			leaveRepository.saveAndFlush(leave1);
 			Leave leave2 = new Leave(LeaveTypeEnum.MEDICAL_LEAVE, LocalDate.now().plusDays(2), LocalDate.now().plusDays(4), 2, LeaveStatusEnum.SUBMITTED, "null", "null", javis);
@@ -121,6 +123,21 @@ public class LapsApplication {
 			for(Staff s: staff){
 				System.out.println(s.getUsername());
 			}
+
+			
+			// Staff testss = staffRepo.save(new Staff(3, "test", "password", 3, "programmer", "shan", "mon", true, "shan@gmail.com", "otp", 10f, 60, 60, 60, null, subo, null));
+			// staffService.createStaff(testss);
+			// Leave leaveHistoryDisplay1 = new Leave();
+			// leaveHistoryDisplay1.setId(3);
+			// leaveHistoryDisplay1.setType(LeaveTypeEnum.MEDICAL_LEAVE);
+			// leaveHistoryDisplay1.setStatus(LeaveStatusEnum.APPROVED);
+
+			// Leave lll = leaveService.approveLeave(leaveHistoryDisplay1);
+
+			// Staff staffff = leaveService.getStaffWithStaffId(1);
+			// System.out.println(staffff.getMediLeave());
+			// System.out.println(javis.getMediLeave());
+			// System.out.println(lll.getStatus());
 		};
 	}
 

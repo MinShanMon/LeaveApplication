@@ -11,8 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import ca.team3.laps.model.LeaveTypes.LeaveType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -74,6 +80,15 @@ public class Staff {
     @JsonIgnore
     @OneToMany(mappedBy = "manager")
     private Set<Staff> subordinates;
+
+    
+    @ManyToMany(targetEntity = LeaveType.class,cascade = {CascadeType.ALL, CascadeType.PERSIST}, fetch=FetchType.EAGER)
+    @JoinTable(name = "StaffAndLeaveType", joinColumns = {
+        @JoinColumn(name="staff_id", referencedColumnName = "staff_id")},
+        inverseJoinColumns = { @JoinColumn(name="LTid", referencedColumnName = "id")}
+        )
+        @JsonIgnore
+        private List<LeaveType> LTSet;
 
     
 }

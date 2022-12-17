@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ca.team3.laps.exception.LeaveException;
+
 import ca.team3.laps.model.Leave;
 import ca.team3.laps.model.LeaveStatusEnum;
 import ca.team3.laps.model.LeaveTypeEnum;
@@ -38,6 +38,9 @@ public class LeaveServiceImpl implements LeaveService {
     public Leave updateLeaveHistory(Integer id, Leave leaves) {
         // TODO Auto-generated method stub
         Leave leave = leaveRepository.findById(id).get();
+        if(leave.getStatus() != LeaveStatusEnum.SUBMITTED && leave.getStatus() != LeaveStatusEnum.UPDATED){
+            return null;
+        }
         leave.setStartDate(leaves.getStartDate());
         leave.setEndDate(leaves.getEndDate());
 
@@ -68,21 +71,11 @@ public class LeaveServiceImpl implements LeaveService {
                 if(peri>staff.getAnuLeave()){
                    return null;
                 }
-                else{
-                    int i = staff.getAnuLeave()-peri;
-                    staff.setAnuLeave(i);
-                    staffRepo.saveAndFlush(staff);
-                }
             }
 
             if(leave.getType() == LeaveTypeEnum.MEDICAL_LEAVE){
                 if(peri>staff.getMediLeave()){
                     return null;
-                 }
-                 else{
-                    int i = staff.getMediLeave()-peri;
-                    staff.setMediLeave(i);
-                    staffRepo.saveAndFlush(staff);
                  }
             }
 
@@ -90,14 +83,9 @@ public class LeaveServiceImpl implements LeaveService {
                 if(peri>staff.getCompLeave()){
                     return null;
                  }
-                 else{
-                    int i = staff.getCompLeave()-peri;
-                    staff.setCompLeave(i);
-                    staffRepo.saveAndFlush(staff);
-                 }
             }
 
-
+            
         leave.setStatus(LeaveStatusEnum.UPDATED);
         leave.setPeriod(peri);
         leave.setType(leaves.getType());
@@ -114,15 +102,12 @@ public class LeaveServiceImpl implements LeaveService {
     public List<Staff> getSubordinate(Integer id){
         return staffRepo.findSubordinates(id);
     }
-    @Override
-    public Staff getStaffWithStaffId(Integer id){
-        return staffRepo.findById(id).orElse(null);
-    }
+
 
     @Override
-    public Leave getwithId(String id) {
-        // TODO Auto-generated method stub
-        return null;
+    public Leave getwithLeaveId(Integer id) {
+        
+        return leaveRepository.findById(id).get();
     }
 
     @Override
@@ -158,34 +143,23 @@ public class LeaveServiceImpl implements LeaveService {
                 if(peri>staff.getAnuLeave()){
                    return null;
                 }
-                else{
-                    int i = staff.getAnuLeave()-peri;
-                    staff.setAnuLeave(i);
-                    staffRepo.saveAndFlush(staff);
-                }
+
             }
 
             if(leaves.getType() == LeaveTypeEnum.MEDICAL_LEAVE){
                 if(peri>staff.getMediLeave()){
                     return null;
                  }
-                 else{
-                    int i = staff.getMediLeave()-peri;
-                    staff.setMediLeave(i);
-                    staffRepo.saveAndFlush(staff);
-                 }
+
             }
 
             if(leaves.getType() == LeaveTypeEnum.COMPENSATION_LEAVE){
                 if(peri>staff.getCompLeave()){
                     return null;
                 }
-                 else{
-                    int i = staff.getCompLeave()-peri;
-                    staff.setCompLeave(i);
-                    staffRepo.saveAndFlush(staff);
-                }
+
             }
+        
         leaveHistory.setPeriod(peri);
         leaveHistory.setReason(leaves.getReason());
         leaveHistory.setType(leaves.getType());
@@ -193,6 +167,47 @@ public class LeaveServiceImpl implements LeaveService {
         leaveHistory.setStatus(LeaveStatusEnum.SUBMITTED);
         leaveRepository.save(leaveHistory);
         return leaveHistory;
+    }
+
+    @Override
+    public Leave approveLeave(Leave leave) {
+        Leave leaves = getwithLeaveId(leave.getId());
+        Staff staff = leaves.getStaff();
+        if(leaves.getStatus() != LeaveStatusEnum.SUBMITTED && leaves.getStatus() != LeaveStatusEnum.UPDATED ){
+            return null;
+        }
+        leaves.setStatus(leave.getStatus());
+        if(leave.getStatus() == LeaveStatusEnum.APPROVED){
+
+            if(leaves.getType() == LeaveTypeEnum.ANNUAL_LEAVE){
+                int peri = leaves.getPeriod();
+                int i = staff.getAnuLeave()-peri;
+                staff.setAnuLeave(i);
+                staffRepo.saveAndFlush(staff);
+                leaveRepository.saveAndFlush(leaves);
+                return leaves;
+            }
+
+            if(leaves.getType() == LeaveTypeEnum.MEDICAL_LEAVE){
+                int peri = leaves.getPeriod();
+                    int i = staff.getMediLeave()-peri;
+                    staff.setMediLeave(i);
+                    staffRepo.saveAndFlush(staff);
+                    leaveRepository.saveAndFlush(leaves);
+                    return leaves;
+            }
+
+            if(leaves.getType() == LeaveTypeEnum.COMPENSATION_LEAVE){
+                int peri = leaves.getPeriod();
+                    int i = staff.getCompLeave()-peri;
+                    staff.setCompLeave(i);
+                    staffRepo.saveAndFlush(staff);
+                    leaveRepository.saveAndFlush(leaves);
+                    return leaves;
+            }
+        }
+        leaveRepository.saveAndFlush(leaves);
+        return leaves;
     }
 
 
